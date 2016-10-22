@@ -8,5 +8,12 @@ namespace EAS.Core
 {
     public class ApplicationUser : IdentityUser
     {
+        public virtual ICollection<Empresa> Empresas { get; set; }
+
+        public ApplicationUser()
+            :base()
+        {
+            Empresas = new List<Empresa>();
+        }
     }
 }

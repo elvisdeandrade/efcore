@@ -17,10 +17,10 @@ namespace EAS.Financeiro.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ApplicationUserId = table.Column<string>(nullable: true),
                     Ativa = table.Column<bool>(nullable: false),
-                    CNPJ = table.Column<string>(nullable: true),
+                    CNPJ = table.Column<string>(type: "char(14)", nullable: true),
                     DataCadastro = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    RazaoSocial = table.Column<string>(nullable: true)
+                    Nome = table.Column<string>(maxLength: 50, nullable: false),
+                    RazaoSocial = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,8 +39,8 @@ namespace EAS.Financeiro.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Nome = table.Column<string>(nullable: true),
-                    Sigla = table.Column<string>(nullable: true)
+                    Nome = table.Column<string>(maxLength: 50, nullable: true),
+                    Sigla = table.Column<string>(type: "char(2)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -53,10 +53,10 @@ namespace EAS.Financeiro.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Email = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(maxLength: 60, nullable: true),
                     EmpresaId = table.Column<int>(nullable: false),
-                    Nome = table.Column<string>(nullable: true),
-                    Tipo = table.Column<string>(nullable: true)
+                    Nome = table.Column<string>(maxLength: 50, nullable: false),
+                    Tipo = table.Column<string>(maxLength: 30, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -75,15 +75,15 @@ namespace EAS.Financeiro.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Bairro = table.Column<string>(nullable: true),
-                    CEP = table.Column<string>(nullable: true),
-                    Cidade = table.Column<string>(nullable: true),
-                    EmpresaId = table.Column<int>(nullable: true),
+                    Bairro = table.Column<string>(maxLength: 50, nullable: true),
+                    CEP = table.Column<string>(type: "char(8)", nullable: true),
+                    Cidade = table.Column<string>(maxLength: 50, nullable: true),
+                    EmpresaId = table.Column<int>(nullable: false),
                     EstadoId = table.Column<int>(nullable: false),
                     Observacao = table.Column<string>(nullable: true),
-                    Pais = table.Column<string>(nullable: true),
-                    Rua = table.Column<string>(nullable: true),
-                    Tipo = table.Column<string>(nullable: true)
+                    Pais = table.Column<string>(maxLength: 50, nullable: true),
+                    Rua = table.Column<string>(maxLength: 150, nullable: false),
+                    Tipo = table.Column<string>(maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -93,7 +93,7 @@ namespace EAS.Financeiro.Data.Migrations
                         column: x => x.EmpresaId,
                         principalTable: "Empresas",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Enderecos_Estados_EstadoId",
                         column: x => x.EstadoId,
@@ -109,13 +109,13 @@ namespace EAS.Financeiro.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ContatoId = table.Column<int>(nullable: false),
-                    DDD = table.Column<string>(nullable: true),
-                    DDI = table.Column<string>(nullable: true),
-                    Numero = table.Column<string>(nullable: true),
-                    Observacao = table.Column<string>(nullable: true),
-                    Operadora = table.Column<string>(nullable: true),
-                    Ramal = table.Column<string>(nullable: true),
-                    Tipo = table.Column<string>(nullable: true)
+                    DDD = table.Column<string>(type: "char(2)", nullable: true),
+                    DDI = table.Column<string>(type: "char(2)", nullable: true),
+                    Numero = table.Column<string>(type: "char(9)", nullable: true),
+                    Observacao = table.Column<string>(maxLength: 150, nullable: true),
+                    Operadora = table.Column<string>(maxLength: 30, nullable: true),
+                    Ramal = table.Column<string>(maxLength: 10, nullable: true),
+                    Tipo = table.Column<string>(maxLength: 30, nullable: true)
                 },
                 constraints: table =>
                 {

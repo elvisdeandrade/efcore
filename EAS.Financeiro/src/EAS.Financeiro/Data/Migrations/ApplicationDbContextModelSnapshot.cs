@@ -70,13 +70,17 @@ namespace EAS.Financeiro.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .HasAnnotation("MaxLength", 60);
 
                     b.Property<int>("EmpresaId");
 
-                    b.Property<string>("Nome");
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 50);
 
-                    b.Property<string>("Tipo");
+                    b.Property<string>("Tipo")
+                        .HasAnnotation("MaxLength", 30);
 
                     b.HasKey("Id");
 
@@ -94,13 +98,18 @@ namespace EAS.Financeiro.Data.Migrations
 
                     b.Property<bool>("Ativa");
 
-                    b.Property<string>("CNPJ");
+                    b.Property<string>("CNPJ")
+                        .HasColumnType("char(14)");
 
                     b.Property<DateTime>("DataCadastro");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 50);
 
-                    b.Property<string>("RazaoSocial");
+                    b.Property<string>("RazaoSocial")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 100);
 
                     b.HasKey("Id");
 
@@ -114,23 +123,30 @@ namespace EAS.Financeiro.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Bairro");
+                    b.Property<string>("Bairro")
+                        .HasAnnotation("MaxLength", 50);
 
-                    b.Property<string>("CEP");
+                    b.Property<string>("CEP")
+                        .HasColumnType("char(8)");
 
-                    b.Property<string>("Cidade");
+                    b.Property<string>("Cidade")
+                        .HasAnnotation("MaxLength", 50);
 
-                    b.Property<int?>("EmpresaId");
+                    b.Property<int>("EmpresaId");
 
                     b.Property<int>("EstadoId");
 
                     b.Property<string>("Observacao");
 
-                    b.Property<string>("Pais");
+                    b.Property<string>("Pais")
+                        .HasAnnotation("MaxLength", 50);
 
-                    b.Property<string>("Rua");
+                    b.Property<string>("Rua")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 150);
 
-                    b.Property<string>("Tipo");
+                    b.Property<string>("Tipo")
+                        .HasAnnotation("MaxLength", 50);
 
                     b.HasKey("Id");
 
@@ -146,9 +162,11 @@ namespace EAS.Financeiro.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Nome");
+                    b.Property<string>("Nome")
+                        .HasAnnotation("MaxLength", 50);
 
-                    b.Property<string>("Sigla");
+                    b.Property<string>("Sigla")
+                        .HasColumnType("char(2)");
 
                     b.HasKey("Id");
 
@@ -162,19 +180,26 @@ namespace EAS.Financeiro.Data.Migrations
 
                     b.Property<int>("ContatoId");
 
-                    b.Property<string>("DDD");
+                    b.Property<string>("DDD")
+                        .HasColumnType("char(2)");
 
-                    b.Property<string>("DDI");
+                    b.Property<string>("DDI")
+                        .HasColumnType("char(2)");
 
-                    b.Property<string>("Numero");
+                    b.Property<string>("Numero")
+                        .HasColumnType("char(9)");
 
-                    b.Property<string>("Observacao");
+                    b.Property<string>("Observacao")
+                        .HasAnnotation("MaxLength", 150);
 
-                    b.Property<string>("Operadora");
+                    b.Property<string>("Operadora")
+                        .HasAnnotation("MaxLength", 30);
 
-                    b.Property<string>("Ramal");
+                    b.Property<string>("Ramal")
+                        .HasAnnotation("MaxLength", 10);
 
-                    b.Property<string>("Tipo");
+                    b.Property<string>("Tipo")
+                        .HasAnnotation("MaxLength", 30);
 
                     b.HasKey("Id");
 
@@ -301,18 +326,19 @@ namespace EAS.Financeiro.Data.Migrations
             modelBuilder.Entity("EAS.Core.Empresa", b =>
                 {
                     b.HasOne("EAS.Core.ApplicationUser", "ApplicationUser")
-                        .WithMany()
+                        .WithMany("Empresas")
                         .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("EAS.Core.Endereco", b =>
                 {
-                    b.HasOne("EAS.Core.Empresa")
+                    b.HasOne("EAS.Core.Empresa", "Empresa")
                         .WithMany("Enderecos")
-                        .HasForeignKey("EmpresaId");
+                        .HasForeignKey("EmpresaId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("EAS.Core.Estado", "Estado")
-                        .WithMany()
+                        .WithMany("Enderecos")
                         .HasForeignKey("EstadoId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

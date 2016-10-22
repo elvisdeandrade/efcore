@@ -22,7 +22,7 @@ namespace EAS.Financeiro.Data
         {
             _ctx.Database.EnsureCreated();
 
-            if(!_ctx.Users.Any())
+            if (!_ctx.Users.Any())
             {
                 await _userManager.CreateAsync(new ApplicationUser
                 {
@@ -208,7 +208,7 @@ namespace EAS.Financeiro.Data
 
             empresa.Nome = "EAS Photobooth";
             empresa.RazaoSocial = "EAS Photobooth LTDA";
-            empresa.CNPJ = "432838110001-50";
+            empresa.CNPJ = "43283811000150";
             empresa.Ativa = true;
             empresa.DataCadastro = DateTime.Now;
             empresa.Enderecos.Add(new Endereco
@@ -217,11 +217,15 @@ namespace EAS.Financeiro.Data
                 Bairro = "Jardim Nena",
                 Cidade = "Suzano",
                 Pais = "Brasil",
-                EstadoId = sp.Id
+                EstadoId = sp.Id,
+                CEP = "08673280",
+                Tipo = "Principal"
             });
-            empresa.Contatos.Add(new Contato {
-                Nome="Elvis de Andrade Santos",
-                Email="elvisdeandrade@outlook.com",
+            empresa.Contatos.Add(new Contato
+            {
+                Nome = "Elvis de Andrade Santos",
+                Email = "elvisdeandrade@outlook.com",
+                Tipo = "Financeiro",
                 Telefones = new List<FoneContato>
                 {
                     new FoneContato
@@ -234,7 +238,11 @@ namespace EAS.Financeiro.Data
                 }
             });
 
+            ApplicationUser user = _ctx.Users.FirstOrDefault(t => t.UserName == "elvisdeandrade");
+
+            empresa.ApplicationUser = user;
             _ctx.Empresas.Add(empresa);
+
             await _ctx.SaveChangesAsync();
         }
     }
